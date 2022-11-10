@@ -13,21 +13,29 @@ public class CargaHoras implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer codigo_carga;
+    private Integer cargaId;
 
-    @Column(name = "Fecha de carga", length = 50)
+    @Column(name = "Fecha_carga", length = 50)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private String fecha;
 
-    @Column(name = "Cantidad de horas", length = 50)
+    @Column(name = "Cantidad_horas", length = 50)
     private Integer cantidad_horas;
 
+    @Column(name = "tarea_id",length = 50)
+    private Integer tarea_id;
 
-    public CargaHoras(Integer codigo_carga, String fecha, Integer cantidad_horas){
+    @Column(name = "legajo",length = 100)
+    private Integer legajo;
 
-        this.codigo_carga = codigo_carga;
+
+    public CargaHoras(Integer cargaId, String fecha, Integer cantidad_horas, Integer tarea_id, Integer legajo){
+
+        this.cargaId = cargaId;
         this.fecha = fecha;
         this.cantidad_horas = cantidad_horas;
+        this.legajo = legajo;
+        this.tarea_id = tarea_id;
 
     }
 
@@ -58,5 +66,22 @@ public class CargaHoras implements Serializable{
         this.cantidad_horas = cantidad_horas;
     }
 
+    public Integer getTarea_id() {
+        return tarea_id;
+    }
+
+
+    public void setTarea_id(Integer tarea_id) {
+        this.tarea_id = tarea_id;
+    }
+
+    public Integer getLegajo() {
+        return legajo;
+    }
+
+
+    public void setLegajo(Integer legajo) {
+        this.legajo = legajo;
+    }
 
 }
