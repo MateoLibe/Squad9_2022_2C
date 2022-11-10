@@ -14,4 +14,7 @@ public interface CargaHorasRepository  extends CrudRepository<CargaHorasTable,In
     
     @Query(value = "SELECT * FROM carga_horas_table c WHERE c.tarea_id=:tareaId",nativeQuery = true)
     public List<CargaHorasTable> findHorasByTarea(@Param("tareaId")Integer tareaId);
+
+    @Query(value = "SELECT * FROM carga_horas_table c WHERE c.legajo_id=:legajoId",nativeQuery = true)
+    public List<CargaHorasTable> findHorasByLegajo(Integer legajoId);
 }

@@ -1,19 +1,15 @@
 package com.example.demo.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
-//import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.Model.CargaHorasTable;
 import com.example.demo.Repository.CargaHorasRepository;
 
-//import java.util.ArrayList;
-//import java.util.Objects;
 
 @Service
 public class CargaHorasService {
@@ -25,6 +21,8 @@ public class CargaHorasService {
         this.cargaHorasRepository = cargaHorasRepository;
     }
 
+    //GETTERS
+
     public List<CargaHorasTable> getCargaHorasPorTarea(Integer tareaId){
 
         if(tareaId == null){
@@ -33,9 +31,36 @@ public class CargaHorasService {
         return cargaHorasRepository.findHorasByTarea(tareaId);
     }
 
+    public List<CargaHorasTable> getCargaHorasPorLegajo(Integer legajoId){
+
+        if(legajoId == null){
+            throw new IllegalStateException("tarea con id" + legajoId + "no existe");
+        }
+
+        return cargaHorasRepository.findHorasByLegajo(legajoId);
+    }
+
+    public CargaHorasTable getCargaById(Integer cargaId){
+
+        CargaHorasTable cargaHoras = cargaHorasRepository.findById(cargaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + cargaId + "no existe"));
+        
+        return cargaHorasRepository.save(cargaHoras);
+    }
+
+    public List<CargaHorasTable> getAll(){
+        List<CargaHorasTable> cargaTotal = new ArrayList<>();
+        cargaHorasRepository.findAll().forEach(cargaTotal::add);
+        return cargaTotal;
+    }
+
+    //POSTS
+
     public CargaHorasTable createCarga(CargaHorasTable cargaHoras){
         return cargaHorasRepository.save(cargaHoras);
     }
+
+
+    //PUTS
 
     @Transactional
     public CargaHorasTable updateCargaHoras(Integer cargaId, String fechaNueva, Integer cantidadHorasActualizada){
@@ -50,4 +75,6 @@ public class CargaHorasService {
 
         return cargaHorasRepository.save(cargaHoras);
     }
+
+
 }
