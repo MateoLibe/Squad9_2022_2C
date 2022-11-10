@@ -12,7 +12,7 @@ public class CargaHorasTable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String codigo_carga;
+    private Integer codigo_carga;
 
     @Column(name = "Fecha de carga", length = 50)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
@@ -31,11 +31,11 @@ public class CargaHorasTable {
     }
 
     
-    public String getCodigo_carga() {
+    public Integer getCodigo_carga() {
         return codigo_carga;
     }
 
-    public void setCodigo_carga(String codigo_carga) {
+    public void setCodigo_carga(Integer codigo_carga) {
         this.codigo_carga = codigo_carga;
     }
 
