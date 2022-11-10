@@ -41,11 +41,11 @@ public class CargaHoras implements Serializable{
 
     
     public Integer getCodigo_carga() {
-        return codigo_carga;
+        return cargaId;
     }
 
     public void setCodigo_carga(Integer codigo_carga) {
-        this.codigo_carga = codigo_carga;
+        this.cargaId = codigo_carga;
     }
 
     public String getFecha() {
