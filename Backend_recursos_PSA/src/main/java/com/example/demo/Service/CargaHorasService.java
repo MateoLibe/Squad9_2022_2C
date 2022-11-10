@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.Exceptions.IdTareaNotFoundException;
 import com.example.demo.Model.CargaHorasTable;
 import com.example.demo.Repository.CargaHorasRepository;
 
@@ -29,7 +28,7 @@ public class CargaHorasService {
     public List<CargaHorasTable> getCargaHorasPorTarea(Integer tareaId){
 
         if(tareaId == null){
-            throw new IdTareaNotFoundException("la tarea que intenta mapear no existe");
+            throw new IllegalStateException("tarea con id" + tareaId + "no existe");
         }
         return cargaHorasRepository.findHorasByTarea(tareaId);
     }
@@ -41,7 +40,7 @@ public class CargaHorasService {
     @Transactional
     public CargaHorasTable updateCargaHoras(Integer cargaId, String fechaNueva, Integer cantidadHorasActualizada){
         
-        CargaHorasTable cargaHoras = cargaHorasRepository.findById(cargaId).orElseThrow() -> new IdCargaNoEncontradaException("no existe ese id de carga");
+        CargaHorasTable cargaHoras = cargaHorasRepository.findById(cargaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + cargaId + "no existe"));
         
         if(fechaNueva != cargaHoras.getFecha()){
             cargaHoras.setFecha(fechaNueva);
