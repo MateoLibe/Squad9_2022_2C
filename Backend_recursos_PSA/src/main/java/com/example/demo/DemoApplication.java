@@ -1,4 +1,4 @@
-package com.example.demo;
+package Backend_recursos_PSA.src.main.java.com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
