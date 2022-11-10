@@ -3,15 +3,15 @@ package com.example.demo.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.text.DateFormat;
+//import java.io.Serializable;
+//import java.text.DateFormat;
 
 @Entity
 @Table(name = "carga_horas_table")
 public class CargaHorasTable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer codigo_carga;
 
     @Column(name = "Fecha de carga", length = 50)
@@ -22,7 +22,7 @@ public class CargaHorasTable {
     private Integer cantidad_horas;
 
 
-    public CargaHorasTable(String codigo_carga, String fecha, Integer cantidad_horas){
+    public CargaHorasTable(Integer codigo_carga, String fecha, Integer cantidad_horas){
 
         this.codigo_carga = codigo_carga;
         this.fecha = fecha;

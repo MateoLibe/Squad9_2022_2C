@@ -1,0 +1,8 @@
+package com.example.demo.Exceptions;
+
+public class IdCargaNoEncontradaException extends Exception{
+
+    public IdCargaNoEncontradaException(String string) {
+    }
+
+}
