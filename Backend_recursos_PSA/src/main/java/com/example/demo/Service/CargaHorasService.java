@@ -85,4 +85,8 @@ public class CargaHorasService {
        return horas;
     }
 
+    public void deleteCargaHoras(Integer idCarga){
+        cargaHorasRepository.deleteById(idCarga);
+    }
+
 }
