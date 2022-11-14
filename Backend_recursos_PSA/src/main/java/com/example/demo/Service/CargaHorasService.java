@@ -54,6 +54,14 @@ public class CargaHorasService {
         return cargaTotal;
     }
 
+    public Integer getHorasDeProyecto(Integer idProyecto) {
+        List<CargaHoras> cargas = cargaHorasRepository.findHorasByProyecto(idProyecto);
+        Integer horas = cargas.stream().
+        filter(carga->carga.getCantidad_horas()>0).
+        mapToInt(carga->carga.getCantidad_horas()).sum();
+        return horas;
+     }
+
     //POSTS
 
     public CargaHoras createCarga(CargaHoras cargaHoras){
@@ -77,13 +85,7 @@ public class CargaHorasService {
         return cargaHorasRepository.save(cargaHoras);
     }
 
-    public Integer getHorasDeProyecto(Integer idProyecto) {
-       List<CargaHoras> cargas = cargaHorasRepository.findHorasByProyecto(idProyecto);
-       Integer horas = cargas.stream().
-       filter(carga->carga.getCantidad_horas()>0).
-       mapToInt(carga->carga.getCantidad_horas()).sum();
-       return horas;
-    }
+    //DELETES
 
     public void deleteCargaHoras(Integer idCarga){
         cargaHorasRepository.deleteById(idCarga);
