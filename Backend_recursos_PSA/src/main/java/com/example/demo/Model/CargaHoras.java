@@ -28,6 +28,8 @@ public class CargaHoras implements Serializable{
     @Column(name = "legajo",length = 100)
     private Integer legajo;
 
+    public CargaHoras(){}
+
 
     public CargaHoras(Integer cargaId, String fecha, Integer cantidad_horas, Integer tarea_id, Integer legajo){
 

@@ -1,8 +1,16 @@
 package com.example.demo.Model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Tarea {
 
-    private Integer codigo;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer tarea_id;
 
     private String fecha_creacion;
 
@@ -10,19 +18,19 @@ public class Tarea {
 
     private String descripcion;
 
-    public Tarea(Integer codigo, String fecha_creacion, String nombre, String descripcion){
-        this.codigo = codigo;
+    public Tarea(Integer tarea_id, String fecha_creacion, String nombre, String descripcion){
+        this.tarea_id = tarea_id;
         this.fecha_creacion = fecha_creacion;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
 
     public Integer getCodigo() {
-        return codigo;
+        return tarea_id;
     }
 
-    public void setCodigo(Integer codigo) {
-        this.codigo = codigo;
+    public void setCodigo(Integer tarea_id) {
+        this.tarea_id = tarea_id;
     }
 
     

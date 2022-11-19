@@ -14,15 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
-
-
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import org.springframework.context.annotation.Bean;
-
 import com.example.demo.Model.CargaHoras;
 import com.example.demo.Service.CargaHorasService;
 
@@ -30,13 +21,17 @@ import com.example.demo.Service.CargaHorasService;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/recursos")
-@EnableSwagger2
+
 public class CargaHorasController {
     
     @Autowired
     private CargaHorasService cargaHorasService;
 
     //POST
+
+    public CargaHorasController(CargaHorasService cargaHorasService){
+        this.cargaHorasService = cargaHorasService;
+    }
 
     @PostMapping(path = "/carga")
     @ResponseStatus(HttpStatus.CREATED)
@@ -67,12 +62,12 @@ public class CargaHorasController {
 
     //PUT
     @PutMapping(path = "/carga/{cargaId}")
-    public CargaHoras updateCargaHoras(@RequestBody CargaHoras cargaHoras,@PathVariable Integer cargaId,@RequestParam(required = false) String horasNuevas, @RequestParam(required = false) Integer cantidadHorasAct){
-        return cargaHorasService.updateCargaHoras(cargaId,horasNuevas,cantidadHorasAct);
+    public CargaHoras updateCargaHoras(@PathVariable Integer cargaId,@RequestParam(required = false) String fechaNueva, @RequestParam(required = false) Integer horasNuevas){
+        return cargaHorasService.updateCargaHoras(cargaId,fechaNueva,horasNuevas);
     }
 
     //SWAGGER
-
+    /* 
     @Bean
 	public Docket apiDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)
@@ -81,4 +76,5 @@ public class CargaHorasController {
 			.paths(PathSelectors.any())
 			.build();
 	}
+    */
 }

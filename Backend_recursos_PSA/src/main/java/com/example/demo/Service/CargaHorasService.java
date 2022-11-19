@@ -54,7 +54,7 @@ public class CargaHorasService {
     }
 
     //POSTS
-
+    @Transactional
     public CargaHoras createCarga(CargaHoras cargaHoras){
         return cargaHorasRepository.save(cargaHoras);
     }
