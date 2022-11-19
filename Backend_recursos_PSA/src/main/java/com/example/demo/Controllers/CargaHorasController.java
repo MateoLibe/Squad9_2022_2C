@@ -51,12 +51,12 @@ public class CargaHorasController {
     }
 
     @GetMapping(path = "/carga/tareaId/{tareaId}")
-    public List<CargaHorasTable> getCargasByTarea(@PathVariable Integer tareaId){
+    public List<CargaHorasTable> getCargasByTarea(@PathVariable Integer tareaId) throws Throwable{
         return cargaHorasService.getCargaHorasPorTarea(tareaId);
     }
 
     @GetMapping(path = "/carga/legajo/{legajo}")
-    public List<CargaHorasTable> getCargasByLegajo(@PathVariable Integer legajo){
+    public List<CargaHorasTable> getCargasByLegajo(@PathVariable Integer legajo) throws Throwable{
         return cargaHorasService.getCargaHorasPorLegajo(legajo);
     }
 
