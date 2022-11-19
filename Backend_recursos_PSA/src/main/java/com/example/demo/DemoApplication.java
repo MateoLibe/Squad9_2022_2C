@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 
 import com.google.common.base.Predicates;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.spi.DocumentationType;

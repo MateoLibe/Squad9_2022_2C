@@ -28,6 +28,8 @@ public class CargaHoras implements Serializable{
     @Column(name = "legajo",length = 100)
     private Integer legajo;
 
+    private Empleado empleado;
+
     public CargaHoras(){}
 
 
@@ -77,13 +79,13 @@ public class CargaHoras implements Serializable{
         this.tarea_id = tarea_id;
     }
 
-    public Integer getLegajo() {
-        return legajo;
+    public Object getLegajo() {
+        return empleado.getLegajo();
     }
 
 
     public void setLegajo(Integer legajo) {
-        this.legajo = legajo;
+        empleado.setLegajo(legajo);
     }
 
 }
