@@ -7,14 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import com.example.demo.Model.CargaHoras;
+import com.example.demo.Model.CargaHorasTable;
 
 @Repository
-public interface CargaHorasRepository  extends CrudRepository<CargaHoras,Integer>{
+public interface CargaHorasRepository  extends CrudRepository<CargaHorasTable,Integer>{
     
     @Query(value = "SELECT * FROM carga_horas_table c WHERE c.tarea_id=:tareaId",nativeQuery = true)
-    public List<CargaHoras> findHorasByTarea(@Param("tareaId")Integer tareaId);
+    public List<CargaHorasTable> findHorasByTarea(@Param("tareaId")Integer tareaId);
 
     @Query(value = "SELECT * FROM carga_horas_table c WHERE c.legajo=:legajoId",nativeQuery = true)
-    public List<CargaHoras> findHorasByLegajo(Integer legajoId);
+    public List<CargaHorasTable> findHorasByLegajo(Integer legajoId);
 }
