@@ -1,14 +1,13 @@
 package com.example.demo.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.Model.CargaHoras;
+import com.example.demo.Model.CargaHorasTable;
 import com.example.demo.Repository.CargaHorasRepository;
 
 
@@ -24,47 +23,48 @@ public class CargaHorasService {
 
     //GETTERS
 
-    public List<CargaHoras> getCargaHorasPorTarea(Integer tareaId){
+    public List<CargaHorasTable> getCargaHorasPorTarea(Integer tareaId) throws Throwable{
 
         if(tareaId == null){
             throw new IllegalStateException("tarea con id" + tareaId + "no existe");
         }
-        return cargaHorasRepository.findHorasByTarea(tareaId);
+        List<CargaHorasTable> cargaHorastable = cargaHorasRepository.findHorasByLegajo(tareaId);
+        if(cargaHorastable == null){
+            throw new IllegalStateException("tarea con id" + tareaId + "no existe");
+        }
+        return cargaHorastable;
     }
 
-    public List<CargaHoras> getCargaHorasPorLegajo(Integer legajoId){
+    public List<CargaHorasTable> getCargaHorasPorLegajo(Integer legajoId) throws Throwable{
 
         if(legajoId == null){
-            throw new IllegalStateException("tarea con id" + legajoId + "no existe");
+            throw new IllegalStateException("empleado con id" + legajoId + "no existe");
         }
 
-        return cargaHorasRepository.findHorasByLegajo(legajoId);
+        List<CargaHorasTable> cargaHorastable = cargaHorasRepository.findHorasByLegajo(legajoId);
+        if(cargaHorastable == null){
+            throw new IllegalStateException("empleado con id" + legajoId + "no tiene nada asignado");
+        }
+        
+        return cargaHorastable;
     }
 
-    public CargaHoras getCargaById(Integer cargaId){
+    public CargaHorasTable getCargaById(Integer cargaId) {
 
-        CargaHoras cargaHoras = cargaHorasRepository.findById(cargaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + cargaId + "no existe"));
+        CargaHorasTable cargaHoras = cargaHorasRepository.findById(cargaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + cargaId + "no existe"));
         
         return cargaHorasRepository.save(cargaHoras);
     }
 
-    public List<CargaHoras> getAll(){
-        List<CargaHoras> cargaTotal = new ArrayList<>();
+    public List<CargaHorasTable> getAll(){
+        List<CargaHorasTable> cargaTotal = new ArrayList<>();
         cargaHorasRepository.findAll().forEach(cargaTotal::add);
         return cargaTotal;
     }
 
-    public Integer getHorasDeProyecto(Integer idProyecto) {
-        List<CargaHoras> cargas = cargaHorasRepository.findHorasByProyecto(idProyecto);
-        Integer horas = cargas.stream().
-        filter(carga->carga.getCantidad_horas()>0).
-        mapToInt(carga->carga.getCantidad_horas()).sum();
-        return horas;
-     }
-
     //POSTS
-
-    public CargaHoras createCarga(CargaHoras cargaHoras){
+    @Transactional
+    public CargaHorasTable createCarga(CargaHorasTable cargaHoras){
         return cargaHorasRepository.save(cargaHoras);
     }
 
@@ -72,23 +72,25 @@ public class CargaHorasService {
     //PUTS
 
     @Transactional
-    public CargaHoras updateCargaHoras(Integer cargaId, Date fechaNueva, Integer cantidadHorasActualizada){
+    public CargaHorasTable updateCargaHoras(Integer cargaId, String fechaNueva, Integer cantidadHorasActualizada){
         
-        CargaHoras cargaHoras = cargaHorasRepository.findById(cargaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + cargaId + "no existe"));
-        
-        if(fechaNueva != cargaHoras.getFecha()){
-            cargaHoras.setFecha(fechaNueva);
-        }if(cantidadHorasActualizada != cargaHoras.getCantidad_horas()){
-            cargaHoras.setCantidad_horas(cantidadHorasActualizada);
+        CargaHorasTable cargaHorasTable = cargaHorasRepository.findById(cargaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + cargaId + "no existe"));
+        String fecha = cargaHorasTable.getFecha();
+        Integer cantidadHoras = cargaHorasTable.getCantidad_horas();
+        if(fechaNueva != cargaHorasTable.getFecha() && fechaNueva != null){
+            cargaHorasTable.setFecha(fechaNueva);
+        }if(cantidadHorasActualizada != cargaHorasTable.getCantidad_horas() && cantidadHorasActualizada != null){
+            cargaHorasTable.setCantidad_horas(cantidadHorasActualizada);
         }
+        if(fechaNueva == null){
+            cargaHorasTable.setFecha(fecha);
 
-        return cargaHorasRepository.save(cargaHoras);
+        }
+        if(cantidadHorasActualizada == null){
+            cargaHorasTable.setCantidad_horas(cantidadHoras);
+        }
+        return cargaHorasRepository.save(cargaHorasTable);
     }
 
-    //DELETES
-
-    public void deleteCargaHoras(Integer idCarga){
-        cargaHorasRepository.deleteById(idCarga);
-    }
 
 }
