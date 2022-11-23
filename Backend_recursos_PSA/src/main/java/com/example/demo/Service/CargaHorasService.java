@@ -111,5 +111,9 @@ public class CargaHorasService {
         return cargaHorasRepository.save(cargaHorasTable);
     }
 
+    //DELETE
 
+    public void deleteByCargaId(Integer cargaId){
+        this.cargaHorasRepository.deleteById(cargaId);
+    }
 }

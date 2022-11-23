@@ -1,22 +1,28 @@
 package com.example.demo.Model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.GenerationType;
+//import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Tarea {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    // @Id
+    // @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonProperty("tarea_id")
     private Integer tarea_id;
-
+    @JsonProperty("fecha")
     private String fecha_creacion;
-
+    @JsonProperty("nombre")
     private String nombre;
-
+    @JsonProperty("descripcion")
     private String descripcion;
+
+
+    public Tarea(){}
 
     public Tarea(Integer tarea_id, String fecha_creacion, String nombre, String descripcion){
         this.tarea_id = tarea_id;
