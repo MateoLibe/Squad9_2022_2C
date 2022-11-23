@@ -31,10 +31,16 @@ public class CargaHorasTable implements Serializable{
     @Column(name = "legajo",length = 100)
     private Integer legajo;
 
+    @Column(name = "nombre_tarea", length = 100)
+    private String nombre_tarea;
+
+    @Column(name = "nombre_proyecto", length = 100)
+    private String nombre_proyecto;
+
     public CargaHorasTable(){}
 
 
-    public CargaHorasTable(Integer cargaId, String fecha, Integer cantidad_horas, Integer tarea_id, Integer legajo, Integer proyecto_id){
+    public CargaHorasTable(Integer cargaId, String fecha, Integer cantidad_horas, Integer tarea_id, Integer legajo, Integer proyecto_id, String nombre_tarea, String nombre_proyecto){
 
         this.cargaId = cargaId;
         this.fecha = fecha;
@@ -42,6 +48,8 @@ public class CargaHorasTable implements Serializable{
         this.legajo = legajo;
         this.tarea_id = tarea_id;
         this.proyecto_id = proyecto_id;
+        this.nombre_proyecto = nombre_proyecto;
+        this.nombre_tarea = nombre_tarea;
     }
 
     
@@ -89,12 +97,28 @@ public class CargaHorasTable implements Serializable{
         this.legajo = legajo;
     }
 
-    public void setProyecto(Integer proyecto_id){
+    public void setProyectoId(Integer proyecto_id){
         this.proyecto_id = proyecto_id;
     }
 
-    public Integer getProyecto(){
+    public Integer getProyectoId(){
         return proyecto_id;
+    }
+
+    public void setTareaNombre(String nombre_tarea){
+        this.nombre_tarea = nombre_tarea;
+    }
+
+    public String getTareaNombre(){
+        return nombre_tarea;
+    }
+
+    public void setProyectoNombre(String nombre_proyecto){
+        this.nombre_proyecto = nombre_proyecto;
+    }
+
+    public String getProyectoNombre(){
+        return nombre_proyecto;
     }
 
 }

@@ -27,7 +27,7 @@ public class CargaHoras {
     }
 
     public void setProyecto(Proyecto proyecto){
-        carga.setProyecto(proyecto.getId());
+        carga.setProyectoId(proyecto.getId());
     }
 
     public Proyecto getProyecto(){
