@@ -23,13 +23,15 @@ public class CargaHorasService {
 
     //GETTERS
 
-    public List<CargaHorasTable> getCargaHorasPorTarea(Integer tareaId) throws Throwable{
+    public List<CargaHorasTable> getReportesPorTarea(Integer tareaId) throws Throwable{
 
         if(tareaId == null){
             throw new IllegalStateException("tarea con id" + tareaId + "no existe");
         }
-        List<CargaHorasTable> cargaHorastable = cargaHorasRepository.findHorasByLegajo(tareaId);
-        if(cargaHorastable == null){
+        List<CargaHorasTable> cargaHorastable = new ArrayList<>();
+        cargaHorasRepository.findHorasByTarea(tareaId).forEach(cargaHorastable::add);
+
+        if(cargaHorastable.isEmpty()){
             throw new IllegalStateException("tarea con id" + tareaId + "no existe");
         }
         return cargaHorastable;
@@ -41,8 +43,10 @@ public class CargaHorasService {
             throw new IllegalStateException("empleado con id" + legajoId + "no existe");
         }
 
-        List<CargaHorasTable> cargaHorastable = cargaHorasRepository.findHorasByLegajo(legajoId);
-        if(cargaHorastable == null){
+        List<CargaHorasTable> cargaHorastable = new ArrayList<>();
+        cargaHorasRepository.findHorasByLegajo(legajoId).forEach(cargaHorastable::add);
+
+        if(cargaHorastable.isEmpty()){
             throw new IllegalStateException("empleado con id" + legajoId + "no tiene nada asignado");
         }
         
@@ -60,6 +64,21 @@ public class CargaHorasService {
         List<CargaHorasTable> cargaTotal = new ArrayList<>();
         cargaHorasRepository.findAll().forEach(cargaTotal::add);
         return cargaTotal;
+    }
+
+    public List<CargaHorasTable> getReportesPorProyecto(Integer proyecto_id) throws Throwable{
+
+        if(proyecto_id == null){
+            throw new IllegalStateException("empleado con id" + proyecto_id + "no existe");
+        }
+        List<CargaHorasTable> cargaDeHoras = new ArrayList<>();
+        cargaHorasRepository.findHorasByProyecto(proyecto_id).forEach(cargaDeHoras::add); 
+
+        if(cargaDeHoras.isEmpty()){
+            throw new IllegalStateException("el proyecto con id" + proyecto_id + "no tiene cargas asignadas");
+        }
+        
+        return cargaDeHoras;
     }
 
     //POSTS

@@ -1,8 +1,6 @@
 package com.example.demo.Model;
 
 
-//import java.text.DateFormat;
-
 
 public class CargaHoras {
     
@@ -10,18 +8,30 @@ public class CargaHoras {
     
     private CargaHorasTable carga;
 
+    private Proyecto proyecto;
+
     public CargaHoras(){}
 
-    public CargaHoras(Empleado empleado, CargaHorasTable carga){
+    public CargaHoras(Empleado empleado, CargaHorasTable carga, Proyecto proyecto){
         this.empleado = empleado;
         this.carga = carga;
+        this.proyecto = proyecto;
     }
 
     public void setEmpleado(Empleado empleado){
         carga.setLegajo((int)empleado.getLegajo());
     }
 
-    public Object getEmpleado(){
-        return this.empleado.getLegajo();
+    public Empleado getEmpleado(){
+        return this.empleado;
     }
+
+    public void setProyecto(Proyecto proyecto){
+        carga.setProyecto(proyecto.getId());
+    }
+
+    public Proyecto getProyecto(){
+        return this.proyecto;
+    }
+
 }

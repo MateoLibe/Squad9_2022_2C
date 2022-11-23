@@ -22,6 +22,9 @@ public class CargaHorasTable implements Serializable{
     @Column(name = "Cantidad_horas", length = 50)
     private Integer cantidad_horas;
 
+    @Column(name = "proyecto_id", length = 50)
+    private Integer proyecto_id;
+
     @Column(name = "tarea_id",length = 50)
     private Integer tarea_id;
 
@@ -31,14 +34,14 @@ public class CargaHorasTable implements Serializable{
     public CargaHorasTable(){}
 
 
-    public CargaHorasTable(Integer cargaId, String fecha, Integer cantidad_horas, Integer tarea_id, Integer legajo){
+    public CargaHorasTable(Integer cargaId, String fecha, Integer cantidad_horas, Integer tarea_id, Integer legajo, Integer proyecto_id){
 
         this.cargaId = cargaId;
         this.fecha = fecha;
         this.cantidad_horas = cantidad_horas;
         this.legajo = legajo;
         this.tarea_id = tarea_id;
-
+        this.proyecto_id = proyecto_id;
     }
 
     
@@ -84,6 +87,14 @@ public class CargaHorasTable implements Serializable{
 
     public void setLegajo(Integer legajo) {
         this.legajo = legajo;
+    }
+
+    public void setProyecto(Integer proyecto_id){
+        this.proyecto_id = proyecto_id;
+    }
+
+    public Integer getProyecto(){
+        return proyecto_id;
     }
 
 }

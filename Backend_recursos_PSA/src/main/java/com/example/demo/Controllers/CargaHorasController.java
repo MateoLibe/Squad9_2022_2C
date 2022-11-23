@@ -50,14 +50,20 @@ public class CargaHorasController {
         return cargaHorasService.getAll();
     }
 
-    @GetMapping(path = "/carga/tareaId/{tareaId}")
+    @GetMapping(path = "/reporte/tarea/{tareaId}")
     public List<CargaHorasTable> getCargasByTarea(@PathVariable Integer tareaId) throws Throwable{
-        return cargaHorasService.getCargaHorasPorTarea(tareaId);
+        return cargaHorasService.getReportesPorTarea(tareaId);
     }
 
     @GetMapping(path = "/carga/legajo/{legajo}")
     public List<CargaHorasTable> getCargasByLegajo(@PathVariable Integer legajo) throws Throwable{
         return cargaHorasService.getCargaHorasPorLegajo(legajo);
+    }
+
+    @GetMapping(path = "/reporte/proyecto/{proyecto_id}")
+    public List<CargaHorasTable> getReportesByProyecto(@PathVariable Integer proyecto_id) throws Throwable{
+        //url de proyecto necesitariamos
+        return cargaHorasService.getReportesPorProyecto(proyecto_id);
     }
 
     //PUT
