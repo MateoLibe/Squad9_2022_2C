@@ -1,4 +1,5 @@
 package com.example.demo.Service;
+import java.util.Date;
 import java.util.List;
 import com.example.demo.Model.CargaHoras;
 
@@ -15,6 +16,8 @@ public interface CargaHorasServiceInterface{
     List<CargaHoras> getAll();
 
     List<CargaHoras> getReportesPorProyecto(Integer proyecto_id) throws Throwable;
+
+    List<CargaHoras> getReportesPorTiempoEstimado(Integer proyecto_id, String fecha_inferior, String fecha_superior) throws Throwable;
 
     CargaHoras createCarga(CargaHoras cargaHoras);
 

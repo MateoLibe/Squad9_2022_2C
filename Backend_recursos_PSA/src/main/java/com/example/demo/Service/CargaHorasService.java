@@ -1,6 +1,9 @@
 package com.example.demo.Service;
 
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +72,7 @@ public class CargaHorasService {
     public List<CargaHorasTable> getReportesPorProyecto(Integer proyecto_id) throws Throwable{
 
         if(proyecto_id == null){
-            throw new IllegalStateException("empleado con id" + proyecto_id + "no existe");
+            throw new IllegalStateException("proyecto con id" + proyecto_id + "no existe");
         }
         List<CargaHorasTable> cargaDeHoras = new ArrayList<>();
         cargaHorasRepository.findHorasByProyecto(proyecto_id).forEach(cargaDeHoras::add); 
@@ -79,6 +82,29 @@ public class CargaHorasService {
         }
         
         return cargaDeHoras;
+    }
+
+    public List<CargaHorasTable> getReportesPorTiempoEstimado(Integer proyecto_id, String fecha_inferior, String fecha_superior) throws Throwable{
+        
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        Date fecha_inf = formato.parse(fecha_inferior);
+        Date fecha_sup = formato.parse(fecha_superior);
+        if(proyecto_id == null){
+            throw new IllegalStateException("proyecto con id" + proyecto_id + "no existe");
+        }
+
+        List<CargaHorasTable> cargaDeHoras = new ArrayList<>();
+        List<CargaHorasTable> cargaDeHorasPorTiempoEstimado = new ArrayList<>();
+        cargaHorasRepository.findHorasByProyecto(proyecto_id).forEach(cargaDeHoras::add);
+        
+        for(CargaHorasTable carga : cargaDeHoras){
+            Date fechaDeCarga = formato.parse(carga.getFecha());
+            if(!fechaDeCarga.after(fecha_sup) && !fechaDeCarga.before(fecha_inf)){
+                cargaDeHorasPorTiempoEstimado.add(carga);
+            }
+        }
+
+        return cargaDeHorasPorTiempoEstimado;
     }
 
     //POSTS

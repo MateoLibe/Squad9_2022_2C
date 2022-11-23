@@ -1,5 +1,6 @@
 package com.example.demo.Controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,11 @@ public class CargaHorasController {
     public List<CargaHorasTable> getReportesByProyecto(@PathVariable Integer proyecto_id) throws Throwable{
         //url de proyecto necesitariamos
         return cargaHorasService.getReportesPorProyecto(proyecto_id);
+    }
+    
+    @GetMapping(path = "/reporte/proyecto/{proyecto_id}/tiempoEstimado")
+    public List<CargaHorasTable> getReportesPorTiempoEstimado(@PathVariable Integer proyecto_id,@RequestParam(required = true) String fecha_inferior,@RequestParam(required = true) String fecha_superior) throws Throwable{
+        return cargaHorasService.getReportesPorTiempoEstimado(proyecto_id, fecha_inferior, fecha_superior);
     }
 
     //PUT
