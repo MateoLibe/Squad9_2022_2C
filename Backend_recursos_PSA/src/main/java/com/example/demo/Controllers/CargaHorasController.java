@@ -52,7 +52,7 @@ public class CargaHorasController {
     }
 
     @GetMapping(path = "/reporte/tarea/{tareaId}")
-    public List<CargaHorasTable> getCargasByTarea(@PathVariable Integer tareaId) throws Throwable{
+    public List<CargaHorasTable> getReportesByTarea(@PathVariable Integer tareaId) throws Throwable{
         return cargaHorasService.getReportesPorTarea(tareaId);
     }
 
