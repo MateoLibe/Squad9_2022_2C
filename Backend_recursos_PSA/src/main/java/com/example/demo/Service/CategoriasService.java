@@ -7,6 +7,8 @@ import org.springframework.web.client.RestTemplate;
 import com.example.demo.Model.Categoria;
 import com.example.demo.Repository.CategoriasRepository;
 
+import net.bytebuddy.asm.MemberSubstitution.Substitution.Chain.Step;
+
 import java.util.*;
 
 @Service
@@ -32,5 +34,18 @@ public class CategoriasService {
 
         Categoria categoriaBuscada = categorias.stream().filter(categoria -> Objects.equals(id, categoria.getIdCategoria())).findAny().orElse(null);
         return categoriaBuscada;
+    }
+
+    public void deleteByCategoriaId(Integer id){
+        this.categoriasRepository.deleteById(id);
+    }
+
+    public Categoria updateCargaHoras(Integer categoriaId, String nombreNuevo, String descripcionNueva) {
+        Categoria categoria = categoriasRepository.findById(categoriaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + categoriaId + "no existe"));
+        if(nombreNuevo != null)
+            categoria.setNombre(nombreNuevo);
+        if(descripcionNueva != null)
+            categoria.setDescripcion(descripcionNueva);
+        return categoria;
     }
 }
