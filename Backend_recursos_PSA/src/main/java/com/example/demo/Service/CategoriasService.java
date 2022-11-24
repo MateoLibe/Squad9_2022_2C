@@ -20,6 +20,10 @@ public class CategoriasService {
     public CategoriasService(CategoriasRepository repository){
         this.categoriasRepository=repository;
     }
+
+    public Categoria createCategoria(Categoria categoria){
+        return this.categoriasRepository.save(categoria);
+    }
     
     public Collection<Categoria> getCategorias(){
         List<Categoria> todaCategoria = new ArrayList<>();
@@ -41,11 +45,12 @@ public class CategoriasService {
     }
 
     public Categoria updateCargaHoras(Integer categoriaId, String nombreNuevo, String descripcionNueva) {
-        Categoria categoria = categoriasRepository.findById(categoriaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + categoriaId + "no existe"));
+        Categoria categoria = categoriasRepository.findById(categoriaId).orElseThrow(() -> new IllegalStateException("categoria con id" + categoriaId + "no existe"));
+
         if(nombreNuevo != null)
             categoria.setNombre(nombreNuevo);
         if(descripcionNueva != null)
             categoria.setDescripcion(descripcionNueva);
-        return categoria;
+        return categoriasRepository.save(categoria);
     }
 }
