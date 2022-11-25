@@ -22,7 +22,7 @@ import com.example.demo.Service.CategoriasService;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(path = "/recursos/categoraias")
+@RequestMapping(path = "/recursos/categorias")
 public class CategoriasController {
 
     @Autowired
@@ -40,7 +40,7 @@ public class CategoriasController {
     }
 
     //GET
-    @GetMapping("/categoria")
+    @GetMapping("/categorias")
     public Collection<Categoria> getCategorias(){
         return categoriaService.getCategorias();
     }
@@ -51,7 +51,7 @@ public class CategoriasController {
     }
 
     //DELETE
-    @DeleteMapping(path = "/deleteCategoria/{categoriaId}")
+    @DeleteMapping(path = "/categorias{categoriaId}")
     public void deleteCategoriaById(@PathVariable Integer categoriaId){
         categoriaService.deleteByCategoriaId(categoriaId);
     }
