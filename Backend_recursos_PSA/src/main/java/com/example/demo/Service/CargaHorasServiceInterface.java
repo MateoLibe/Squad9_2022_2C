@@ -1,27 +1,26 @@
 package com.example.demo.Service;
-import java.util.Date;
 import java.util.List;
-import com.example.demo.Model.CargaHoras;
+import com.example.demo.Model.CargaHorasVieja;
 
 
 public interface CargaHorasServiceInterface{
 
-    List<CargaHoras> getReportesPorTarea(Integer tareaId) throws Throwable;
+    List<CargaHorasVieja> getReportesPorTarea(Integer tareaId) throws Throwable;
 
     
-    List<CargaHoras> getCargaHorasPorLegajo(Integer legajoId) throws Throwable;
+    List<CargaHorasVieja> getCargaHorasPorLegajo(Integer legajoId) throws Throwable;
 
-    CargaHoras getCargaById(Integer cargaId);
+    CargaHorasVieja getCargaById(Integer cargaId);
 
-    List<CargaHoras> getAll();
+    List<CargaHorasVieja> getAll();
 
-    List<CargaHoras> getReportesPorProyecto(Integer proyecto_id) throws Throwable;
+    List<CargaHorasVieja> getReportesPorProyecto(Integer proyecto_id) throws Throwable;
 
-    List<CargaHoras> getReportesPorTiempoEstimado(Integer proyecto_id, String fecha_inferior, String fecha_superior) throws Throwable;
+    List<CargaHorasVieja> getReportesPorTiempoEstimado(Integer proyecto_id, String fecha_inferior, String fecha_superior) throws Throwable;
 
-    CargaHoras createCarga(CargaHoras cargaHoras);
+    CargaHorasVieja createCarga(CargaHorasVieja cargaHoras);
 
-    CargaHoras updateCargaHoras(Integer cargaId, String fechaNueva, Integer cantidadHorasActualizada);
+    CargaHorasVieja updateCargaHoras(Integer cargaId, String fechaNueva, Integer cantidadHorasActualizada, String estadoNuevo);
 
     void deleteByCargaId(Integer cargaId);
 }

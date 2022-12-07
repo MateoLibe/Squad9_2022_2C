@@ -2,7 +2,6 @@ package com.example.demo;
 /* 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import springfox.documentation.builders.PathSelectors;
@@ -22,11 +21,13 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
+
 //@RestController
 //@SpringBootApplication
 //@EnableSwagger2
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @EnableSwagger2
 @SpringBootApplication
 @Controller

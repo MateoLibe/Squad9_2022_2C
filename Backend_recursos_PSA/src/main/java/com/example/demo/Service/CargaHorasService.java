@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.Model.CargaHorasTable;
+import com.example.demo.Model.CargaHoras;
 import com.example.demo.Repository.CargaHorasRepository;
 
 
@@ -26,27 +26,27 @@ public class CargaHorasService {
 
     //GETTERS
 
-    public List<CargaHorasTable> getReportesPorTarea(Integer tareaId) throws Throwable{
+    public List<CargaHoras> getReportesPorTarea(Integer tareaId) throws Throwable{
 
         if(tareaId == null){
             throw new IllegalStateException("tarea con id" + tareaId + "no existe");
         }
-        List<CargaHorasTable> cargaHorastable = new ArrayList<>();
+        List<CargaHoras> cargaHorastable = new ArrayList<>();
         cargaHorasRepository.findHorasByTarea(tareaId).forEach(cargaHorastable::add);
 
-        if(cargaHorastable.isEmpty()){
+        /*if(cargaHorastable.isEmpty()){
             throw new IllegalStateException("tarea con id" + tareaId + "no existe");
-        }
+        }*/
         return cargaHorastable;
     }
 
-    public List<CargaHorasTable> getCargaHorasPorLegajo(Integer legajoId) throws Throwable{
+    public List<CargaHoras> getCargaHorasPorLegajo(Integer legajoId) throws Throwable{
 
         if(legajoId == null){
             throw new IllegalStateException("empleado con id" + legajoId + "no existe");
         }
 
-        List<CargaHorasTable> cargaHorastable = new ArrayList<>();
+        List<CargaHoras> cargaHorastable = new ArrayList<>();
         cargaHorasRepository.findHorasByLegajo(legajoId).forEach(cargaHorastable::add);
 
         if(cargaHorastable.isEmpty()){
@@ -56,25 +56,25 @@ public class CargaHorasService {
         return cargaHorastable;
     }
 
-    public CargaHorasTable getCargaById(Integer cargaId) {
+    public CargaHoras getCargaById(Integer cargaId) {
 
-        CargaHorasTable cargaHoras = cargaHorasRepository.findById(cargaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + cargaId + "no existe"));
+        CargaHoras cargaHoras = cargaHorasRepository.findById(cargaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + cargaId + "no existe"));
         
         return cargaHorasRepository.save(cargaHoras);
     }
 
-    public List<CargaHorasTable> getAll(){
-        List<CargaHorasTable> cargaTotal = new ArrayList<>();
+    public List<CargaHoras> getAll(){
+        List<CargaHoras> cargaTotal = new ArrayList<>();
         cargaHorasRepository.findAll().forEach(cargaTotal::add);
         return cargaTotal;
     }
 
-    public List<CargaHorasTable> getReportesPorProyecto(Integer proyecto_id) throws Throwable{
+    public List<CargaHoras> getReportesPorProyecto(Integer proyecto_id) throws Throwable{
 
         if(proyecto_id == null){
             throw new IllegalStateException("proyecto con id" + proyecto_id + "no existe");
         }
-        List<CargaHorasTable> cargaDeHoras = new ArrayList<>();
+        List<CargaHoras> cargaDeHoras = new ArrayList<>();
         cargaHorasRepository.findHorasByProyecto(proyecto_id).forEach(cargaDeHoras::add); 
 
         if(cargaDeHoras.isEmpty()){
@@ -84,7 +84,7 @@ public class CargaHorasService {
         return cargaDeHoras;
     }
 
-    public List<CargaHorasTable> getReportesPorTiempoEstimado(Integer proyecto_id, String fecha_inferior, String fecha_superior) throws Throwable{
+    public List<CargaHoras> getReportesPorTiempoEstimado(Integer proyecto_id, String fecha_inferior, String fecha_superior) throws Throwable{
         
         SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
         Date fecha_inf = formato.parse(fecha_inferior);
@@ -93,23 +93,69 @@ public class CargaHorasService {
             throw new IllegalStateException("proyecto con id" + proyecto_id + "no existe");
         }
 
-        List<CargaHorasTable> cargaDeHoras = new ArrayList<>();
-        List<CargaHorasTable> cargaDeHorasPorTiempoEstimado = new ArrayList<>();
+        List<CargaHoras> cargaDeHoras = new ArrayList<>();
+        List<CargaHoras> cargaDeHorasPorTiempoEstimado = new ArrayList<>();
         cargaHorasRepository.findHorasByProyecto(proyecto_id).forEach(cargaDeHoras::add);
         
-        for(CargaHorasTable carga : cargaDeHoras){
-            Date fechaDeCarga = formato.parse(carga.getFecha());
-            if(!fechaDeCarga.after(fecha_sup) && !fechaDeCarga.before(fecha_inf)){
-                cargaDeHorasPorTiempoEstimado.add(carga);
+        for(CargaHoras carga : cargaDeHoras){
+            Date fechaInicioCarga = formato.parse(carga.getFechaInicio());
+            Date fechaFinCarga = formato.parse(carga.getFechaFin());
+            if(!fechaInicioCarga.after(fecha_sup) && !fechaInicioCarga.before(fecha_inf) && fechaInicioCarga != null){
+                if(!fechaFinCarga.after(fecha_sup) && !fechaFinCarga.before(fecha_inf) && fechaFinCarga != null)
+                    cargaDeHorasPorTiempoEstimado.add(carga);
             }
         }
 
         return cargaDeHorasPorTiempoEstimado;
     }
 
+
+    public Integer getSumaHorasTiempoEstimado(Integer proyecto_id) throws Throwable{
+        Integer suma = 0;
+        if(proyecto_id == null){
+            throw new IllegalStateException("proyecto con id" + proyecto_id + "no existe");
+        }
+
+        List<CargaHoras> cargaDeHoras = new ArrayList<>();
+        cargaHorasRepository.findHorasByProyecto(proyecto_id).forEach(cargaDeHoras::add);
+
+        for(CargaHoras carga : cargaDeHoras){
+            suma += carga.getCantidad_horas();
+        }        
+        return suma;
+    }
+
+    public Integer getSumaHorasTiempoEstimadoLegajo(Integer legajo,Integer proyecto_id, String fecha_inferior, String fecha_superior) throws Throwable{
+        Integer suma = 0;
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        Date fecha_inf = formato.parse(fecha_inferior);
+        Date fecha_sup = formato.parse(fecha_superior);
+        if(legajo == null){
+            throw new IllegalStateException("legajo ingresado" + legajo + "no existe");
+        }
+        if(proyecto_id == null){
+            throw new IllegalStateException("proyecto con id" + proyecto_id + "no existe");
+        }
+
+        List<CargaHoras> cargaDeHoras = new ArrayList<>();
+
+        cargaHorasRepository.findHorasByLegajoProyecto(legajo,proyecto_id).forEach(cargaDeHoras::add);
+
+        for(CargaHoras carga : cargaDeHoras){
+            Date fechaInicioCarga = formato.parse(carga.getFechaInicio());
+            Date fechaFinCarga = formato.parse(carga.getFechaFin());
+            if(!fechaInicioCarga.after(fecha_sup) && !fechaInicioCarga.before(fecha_inf) && fechaInicioCarga != null){
+                if(!fechaFinCarga.after(fecha_sup) && !fechaFinCarga.before(fecha_inf) && fechaFinCarga != null)
+                    suma += carga.getCantidad_horas();
+            }
+        }        
+        return suma;
+
+    }
+
     //POSTS
     @Transactional
-    public CargaHorasTable createCarga(CargaHorasTable cargaHoras){
+    public CargaHoras createCarga(CargaHoras cargaHoras){
         return cargaHorasRepository.save(cargaHoras);
     }
 
@@ -117,23 +163,85 @@ public class CargaHorasService {
     //PUTS
 
     @Transactional
-    public CargaHorasTable updateCargaHoras(Integer cargaId, String fechaNueva, Integer cantidadHorasActualizada){
+    public CargaHoras updateCargaHoras(Integer cargaId, String fechaInicioNueva, String fechaFinNueva, Integer cantidadHorasActualizada,
+                                       String estadoNuevo, Integer categoriaIdNuevo, Integer proyectoIdNuevo, Integer tareaIdNuevo,
+                                       String proyectoNombreNuevo, String tareaNombreNuevo, String categoriaNombreNuevo){
         
-        CargaHorasTable cargaHorasTable = cargaHorasRepository.findById(cargaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + cargaId + "no existe"));
-        String fecha = cargaHorasTable.getFecha();
+        CargaHoras cargaHorasTable = cargaHorasRepository.findById(cargaId).orElseThrow(() -> new IllegalStateException("carga de horas con id" + cargaId + "no existe"));
+        String fechaInicio = cargaHorasTable.getFechaInicio();
+        String fechaFin = cargaHorasTable.getFechaFin();
         Integer cantidadHoras = cargaHorasTable.getCantidad_horas();
-        if(fechaNueva != cargaHorasTable.getFecha() && fechaNueva != null){
-            cargaHorasTable.setFecha(fechaNueva);
-        }if(cantidadHorasActualizada != cargaHorasTable.getCantidad_horas() && cantidadHorasActualizada != null){
+        String estado = cargaHorasTable.getEstado();
+        Integer categoriaId = cargaHorasTable.getCategoria();
+        Integer proyectoIdActual = cargaHorasTable.getProyectoId();
+        Integer tareaIdActual = cargaHorasTable.getTarea_id();
+        String proyectoNombreActual = cargaHorasTable.getProyectoNombre();
+        String tareaNombreActual = cargaHorasTable.getTareaNombre();
+        String categoriaNombreActual = cargaHorasTable.getCategoriaNombre();
+
+        if(fechaInicioNueva != fechaInicio && fechaInicioNueva != null && fechaFinNueva != fechaFin && fechaFinNueva != null){
+            cargaHorasTable.setFechas(fechaInicioNueva, fechaFinNueva);
+        }
+        if(cantidadHorasActualizada != cargaHorasTable.getCantidad_horas() && cantidadHorasActualizada != null){
             cargaHorasTable.setCantidad_horas(cantidadHorasActualizada);
         }
-        if(fechaNueva == null){
-            cargaHorasTable.setFecha(fecha);
+        if(estadoNuevo!=null && estadoNuevo!=cargaHorasTable.getEstado()){
+            cargaHorasTable.setEstado(estadoNuevo);
+        }
 
+        if(categoriaIdNuevo!=null && categoriaIdNuevo!=categoriaId){
+            cargaHorasTable.setCategoria(categoriaIdNuevo);
+        }
+
+        if(proyectoIdActual!=null && proyectoIdActual!=proyectoIdNuevo){
+            cargaHorasTable.setProyectoId(proyectoIdNuevo);
+        }
+
+        if(tareaIdNuevo!=null && tareaIdNuevo!=tareaIdActual){
+            cargaHorasTable.setTarea_id(tareaIdNuevo);
+        }
+
+        if(proyectoNombreNuevo!=null && proyectoNombreNuevo!=proyectoNombreActual){
+            cargaHorasTable.setProyectoNombre(proyectoNombreNuevo);
+        }
+
+        if(tareaNombreNuevo!=null && tareaNombreNuevo!=tareaNombreActual){
+            cargaHorasTable.setTareaNombre(tareaNombreNuevo);
+        }
+
+        if(categoriaNombreNuevo!=null && categoriaNombreNuevo!=categoriaNombreActual){
+            cargaHorasTable.setCategoriaNombre(categoriaNombreNuevo);
+        }
+
+        if(fechaInicioNueva == null || fechaFinNueva ==null){
+             cargaHorasTable.setFechas(fechaInicio, fechaFin);
         }
         if(cantidadHorasActualizada == null){
             cargaHorasTable.setCantidad_horas(cantidadHoras);
         }
+        if (estadoNuevo == null){
+            cargaHorasTable.setEstado(estado);
+        }
+
+        if(categoriaIdNuevo == null){
+            cargaHorasTable.setCategoria(cargaHorasTable.getCategoria());
+        }
+        if( proyectoIdNuevo == null){
+            cargaHorasTable.setProyectoId(proyectoIdActual);
+        }
+        if( tareaIdNuevo == null){
+            cargaHorasTable.setTarea_id(tareaIdActual);
+        }
+        if (proyectoNombreNuevo == null){
+            cargaHorasTable.setProyectoNombre(proyectoNombreActual);
+        }
+        if( tareaNombreNuevo == null){
+            cargaHorasTable.setTareaNombre(tareaNombreActual);
+        }
+        if( categoriaNombreNuevo == null){
+            cargaHorasTable.setCategoriaNombre(categoriaNombreActual);
+        }
+
         return cargaHorasRepository.save(cargaHorasTable);
     }
 

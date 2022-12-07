@@ -3,10 +3,7 @@ package com.example.demo.Controllers;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.demo.Model.Empleado;
 import com.example.demo.Service.EmpleadoService;
 
@@ -29,7 +26,7 @@ public class EmpleadoController {
     }
 
     @GetMapping("/empleado/{legajo}")
-    public Empleado getSingleEmpleado(Integer legajo){
+    public Empleado getEmpleadoById(@PathVariable Integer legajo){
         return empleadoService.getEmpleadoByLegajo(legajo);
     }
 
